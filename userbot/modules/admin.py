@@ -24,7 +24,7 @@ from telethon.tl.types import (ChannelParticipantsAdmins, ChatAdminRights,
 
 from userbot import (BOTLOG, BOTLOG_CHATID, CMD_HELP, bot, is_mongo_alive,
                      is_redis_alive)
-from userbot.events import register, grp_exclude
+from userbot.events import register
 from userbot.modules.dbhelper import (get_gmuted, get_muted, gmute, mute,
                                       ungmute, unmute)
 
@@ -104,7 +104,6 @@ CHATUNLOCK_RIGHTS = ChatBannedRights(
 
 
 @register(outgoing=True, group_only=True, pattern="^.setgrouppic$")
-@grp_exclude()
 async def set_group_photo(gpic):
     """ For .setgrouppic command, changes the picture of a group """
     replymsg = await gpic.get_reply_message()
@@ -135,7 +134,6 @@ async def set_group_photo(gpic):
 
 
 @register(outgoing=True, group_only=True, pattern="^.promote(?: |$)(.*)")
-@grp_exclude()
 async def promote(promt):
     """ For .promote command, do promote targeted person """
     # Get targeted chat
@@ -185,7 +183,6 @@ async def promote(promt):
 
 
 @register(outgoing=True, group_only=True, pattern="^.demote(?: |$)(.*)")
-@grp_exclude()
 async def demote(dmod):
     """ For .demote command, do demote targeted person """
     # Admin right check
@@ -234,7 +231,6 @@ async def demote(dmod):
 
 
 @register(outgoing=True, group_only=True, pattern="^.ban(?: |$)(.*)")
-@grp_exclude()
 async def ban(bon):
     """ For .ban command, do a ban at targeted person """
     # Here laying the sanity check
@@ -286,7 +282,6 @@ async def ban(bon):
 
 
 @register(outgoing=True, group_only=True, pattern="^.unban(?: |$)(.*)")
-@grp_exclude()
 async def nothanos(unbon):
     """ For .unban command, unban the target """
     # Here laying the sanity check
@@ -323,7 +318,6 @@ async def nothanos(unbon):
 
 
 @register(outgoing=True, group_only=True, pattern="^.mute(?: |$)(.*)")
-@grp_exclude()
 async def spider(spdr):
     """
     This function is basically muting peeps
@@ -384,13 +378,12 @@ async def spider(spdr):
 
         return await spdr.edit("""`I couldn't mute on the API,
         could the user be an admin possibly?
-        Anyways, muted on Paperplane.
+        Anyways, muted on userbot.
         I'll automatically delete messages
         in this chat from this person.`""")
 
 
 @register(outgoing=True, group_only=True, pattern="^.unmute(?: |$)(.*)")
-@grp_exclude()
 async def unmoot(unmot):
     """ For .unmute command, unmute the target """
     # Admin or creator check
@@ -434,7 +427,6 @@ async def unmoot(unmot):
 
 
 @register(incoming=True, disable_errors=True)
-@grp_exclude()
 async def muter(moot):
     """ Used for deleting the messages of muted people """
     if not is_mongo_alive() or not is_redis_alive():
@@ -472,7 +464,6 @@ async def muter(moot):
 
 
 @register(outgoing=True, group_only=True, pattern="^.ungmute(?: |$)(.*)")
-@grp_exclude()
 async def ungmoot(un_gmute):
     """ For .ungmute command, ungmutes the target in the userbot """
 
@@ -504,7 +495,6 @@ async def ungmoot(un_gmute):
 
 
 @register(outgoing=True, group_only=True, pattern="^.gmute(?: |$)(.*)")
-@grp_exclude()
 async def gspider(gspdr):
     """ For .gmute command, gmutes the target in the userbot """
 
@@ -534,7 +524,6 @@ async def gspider(gspdr):
 
 
 @register(outgoing=True, group_only=True, pattern="^.delusers(?: |$)(.*)")
-@grp_exclude()
 async def rm_deletedacc(show):
     """ For .delusers command, clean deleted accounts. """
     con = show.pattern_match.group(1)
@@ -594,7 +583,6 @@ async def rm_deletedacc(show):
 
 
 @register(outgoing=True, group_only=True, pattern="^.adminlist$")
-@grp_exclude()
 async def get_admin(show):
     """ For .adminlist command, list all of the admins of the chat. """
     info = await show.client.get_entity(show.chat_id)
@@ -616,7 +604,6 @@ async def get_admin(show):
 
 
 @register(outgoing=True, group_only=True, pattern="^.pin(?: |$)(.*)")
-@grp_exclude()
 async def pin(msg):
     """ .pin pins the replied to message at the top of the chat. """
     # Admin or creator check
@@ -661,7 +648,6 @@ async def pin(msg):
 
 
 @register(outgoing=True, group_only=True, pattern="^.kick(?: |$)(.*)")
-@grp_exclude()
 async def kick(usr):
     """ For .kick command, kick someone from the group using the userbot. """
     # Admin or creator check

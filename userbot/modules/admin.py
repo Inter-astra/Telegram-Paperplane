@@ -157,9 +157,7 @@ async def promote(promt):
     await promt.edit("`Promoting...`")
 
     user = await get_user_from_event(promt)
-    if user:
-        pass
-    else:
+    if not user:
         return
 
     # Try to promote if current user is admin or creator
@@ -198,9 +196,7 @@ async def demote(dmod):
     await dmod.edit("`Demoting...`")
 
     user = await get_user_from_event(dmod)
-    if user:
-        pass
-    else:
+    if not user:
         return
 
     # New rights after demotion
@@ -244,9 +240,7 @@ async def ban(bon):
         return
 
     user = await get_user_from_event(bon)
-    if user:
-        pass
-    else:
+    if not user:
         return
 
     # Announce that we're going to whack the pest
@@ -298,9 +292,7 @@ async def nothanos(unbon):
     await unbon.edit("`Unbanning...`")
 
     user = await get_user_from_event(unbon)
-    if user:
-        pass
-    else:
+    if not user:
         return
 
     try:
@@ -338,9 +330,7 @@ async def spider(spdr):
         return
 
     user = await get_user_from_event(spdr)
-    if user:
-        pass
-    else:
+    if not user:
         return
 
     self_user = await spdr.client.get_me()
@@ -403,9 +393,7 @@ async def unmoot(unmot):
     # If admin or creator, inform the user and start unmuting
     await unmot.edit('```Unmuting...```')
     user = await get_user_from_event(unmot)
-    if user:
-        pass
-    else:
+    if not user:
         return
 
     if await unmute(unmot.chat_id, user.id) is False:
@@ -473,9 +461,7 @@ async def ungmoot(un_gmute):
         return
 
     user = await get_user_from_event(un_gmute)
-    if user:
-        pass
-    else:
+    if not user:
         return
 
     # If pass, inform and start ungmuting
@@ -503,9 +489,7 @@ async def gspider(gspdr):
         await gspdr.edit(NO_SQL)
         return
     user = await get_user_from_event(gspdr)
-    if user:
-        pass
-    else:
+    if not user:
         return
 
     # If pass, inform and start gmuting
@@ -587,7 +571,7 @@ async def rm_deletedacc(show):
 async def get_admin(show):
     """ For .adminlist command, list all of the admins of the chat. """
     info = await show.client.get_entity(show.chat_id)
-    title = info.title if info.title else "this chat"
+    title = info.title or "this chat"
     mentions = f'<b>Admins in {title}:</b> \n'
     try:
         async for user in show.client.iter_participants(

@@ -33,9 +33,9 @@ async def parseqr(qr_e):
     start = datetime.now()
     downloaded_file_name = await qr_e.client.download_media(
         await qr_e.get_reply_message(), progress_callback=progress)
-    url = "https://api.qrserver.com/v1/read-qr-code/?outputformat=json"
     with open(downloaded_file_name, "rb") as dl_file:
         files = {"file": dl_file}
+        url = "https://api.qrserver.com/v1/read-qr-code/?outputformat=json"
         resp = post(url, files=files).json()
         qr_contents = resp[0]["symbol"][0]["data"]
 
@@ -67,9 +67,7 @@ async def make_qr(qrcode):
             m_list = None
             with open(downloaded_file_name, "rb") as file:
                 m_list = file.readlines()
-            message = ""
-            for media in m_list:
-                message += media.decode("UTF-8") + "\r\n"
+            message = "".join(media.decode("UTF-8") + "\r\n" for media in m_list)
             os.remove(downloaded_file_name)
         else:
             message = previous_message.message

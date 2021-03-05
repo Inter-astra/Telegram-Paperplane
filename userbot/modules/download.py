@@ -51,8 +51,7 @@ async def download_from_url(url: str, file_name: str) -> str:
     end = datetime.now()
     duration = (end - start).seconds
     os.rename(downloader.file_name, file_name)
-    status = f"Downloaded `{file_name}` in {duration} seconds."
-    return status
+    return f"Downloaded `{file_name}` in {duration} seconds."
 
 
 async def download_from_tg(target_file) -> (str, BytesIO):
@@ -154,9 +153,8 @@ async def gdrive_upload(filename: str, filebuf: BytesIO = None) -> str:
     })
     if not filebuf:
         os.remove(filename)
-    reply = f"[{name}]({file['alternateLink']})\n" \
+    return f"[{name}]({file['alternateLink']})\n" \
         f"__Direct link:__ [Here]({file['downloadUrl']})"
-    return reply
 
 
 @register(pattern=r"^.mirror(?: |$)([\s\S]*)", outgoing=True)
@@ -308,7 +306,7 @@ async def uploadir(udir_event):
                         progress_callback=progress,
                     )
                 os.remove(single_file)
-                uploaded = uploaded + 1
+                uploaded += 1
         end = datetime.now()
         duration = (end - start).seconds
         await udir_event.edit("Uploaded {} files in {} seconds.".format(
@@ -413,12 +411,12 @@ async def uploadas(uas_event):
     supports_streaming = False
     round_message = False
     spam_big_messages = False
-    if type_of_upload == "stream":
-        supports_streaming = True
-    if type_of_upload == "vn":
-        round_message = True
     if type_of_upload == "all":
         spam_big_messages = True
+    elif type_of_upload == "stream":
+        supports_streaming = True
+    elif type_of_upload == "vn":
+        round_message = True
     input_str = uas_event.pattern_match.group(2)
     thumb = None
     file_name = None

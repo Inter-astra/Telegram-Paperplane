@@ -59,9 +59,7 @@ async def gban_all(msg):
         await asyncio.sleep(1)
     x = (await get_gban())
     count = 0
-    banlist = []
-    for i in x:
-        banlist.append(i["chatid"])
+    banlist = [i["chatid"] for i in x]
     for banbot in banlist:
         async with bot.conversation(banbot) as conv:
             if textx:
@@ -113,10 +111,8 @@ async def fedban_all(msg):
             banreason = "[paperplane] fban"
     failed = {}
     count = 1
-    fbanlist = []
     x = (await get_fban())
-    for i in x:
-        fbanlist.append(i["chatid"])
+    fbanlist = [i["chatid"] for i in x]
     for bangroup in fbanlist:
         async with bot.conversation(bangroup) as conv:
             await conv.send_message(f"!fban {banid} {banreason}")
